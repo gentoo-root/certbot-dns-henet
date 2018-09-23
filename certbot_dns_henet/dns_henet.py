@@ -26,10 +26,6 @@ class Authenticator(dns_common.DNSAuthenticator):
 
     def __init__(self, *args, **kwargs):
         super(Authenticator, self).__init__(*args, **kwargs)
-        self._client = _HeNetClient(
-            username=self.credentials.conf('username'),
-            password=self.credentials.conf('password'),
-        )
 
     @classmethod
     def add_parser_arguments(cls, add):
@@ -58,6 +54,13 @@ class Authenticator(dns_common.DNSAuthenticator):
 
     def _cleanup(self, domain, validation_name, validation):
         self._client.del_txt_record(domain, validation_name, validation)
+
+    @property
+    def _client(self):
+        return _HeNetClient(
+            username=self.credentials.conf('username'),
+            password=self.credentials.conf('password'),
+        )
 
 
 class _HeNetClient:
