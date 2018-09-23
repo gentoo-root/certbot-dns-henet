@@ -170,7 +170,7 @@ class _HeNetClient:
             _logger.debug(f'Trying Zone {zone}')
             try:
                 zone_id = self._find_zone_id(zone)
+                return zone_id
             except KeyError:
                 pass
-            return zone_id
         raise PluginError('Unable to find Zone ID')
