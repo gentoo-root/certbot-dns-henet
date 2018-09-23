@@ -47,7 +47,6 @@ class Authenticator(dns_common.DNSAuthenticator):
                 'password': 'dns.he.net password',
             },
         )
-        raise NotImplemented()
 
     def _perform(self, domain, validation_name, validation):
         self._client.add_txt_record(domain, validation_name, validation)
