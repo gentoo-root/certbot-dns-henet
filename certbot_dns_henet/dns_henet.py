@@ -81,7 +81,7 @@ class _HeNetClient:
         })
 
     def add_txt_record(self, domain, record_name, record_content):
-        zone_id = self._find_zone_id(domain)
+        zone_id = self._find_zone_id_for_domain(domain)
         self._post({
             'account': '',
             'menu': 'edit_zone',
@@ -97,7 +97,7 @@ class _HeNetClient:
         })
 
     def del_txt_record(self, domain, record_name, record_content):
-        zone_id = self._find_zone_id(domain)
+        zone_id = self._find_zone_id_for_domain(domain)
         record_id = self._find_record_id(zone_id, record_name)
         response = self._post({
             'menu': 'edit_zone',
@@ -138,7 +138,7 @@ class _HeNetClient:
             'name': zone,
         })
         if len(elements) == 0:
-            raise PluginError('Unable to find Zone ID')
+            raise KeyError('Unable to find Zone ID')
         if len(elements) > 1:
             raise PluginError('Multiple elements match the given Zone')
         zone_id = elements[0]['value']
@@ -163,3 +163,15 @@ class _HeNetClient:
         record_id = self.RECORD_ONCLICK_REGEX.search(elements[0]['onclick']).group(1)
         _logger.debug(f'Found Record ID: {record_id} (zone={zone}, record_name={record_name}).')
         return record_id
+
+    def _find_zone_id_for_domain(self, domain):
+        domain_parts = domain.split('.')
+        for i in range(len(domain_parts) - 1):
+            zone = '.'.join(domain_parts[i:])
+            _logger.debug(f'Trying Zone {zone}')
+            try:
+                zone_id = self._find_zone_id(zone)
+            except KeyError:
+                pass
+            return zone_id
+        raise PluginError('Unable to find Zone ID')
