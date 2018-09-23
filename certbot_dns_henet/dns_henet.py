@@ -14,7 +14,7 @@ _logger = logging.getLogger(__name__)
 
 @zope.interface.implementer(interfaces.IAuthenticator)
 @zope.interface.provider(interfaces.IPluginFactory)
-class Authenticator(dns_common.IPluginFactory):
+class Authenticator(dns_common.DNSAuthenticator):
     """
     DNS Authenticator for he.net DNS
 
