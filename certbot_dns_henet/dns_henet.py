@@ -106,7 +106,7 @@ class _HeNetClient:
             'hosted_dns_delrecord': '1',
             'hosted_dns_delconfirm': 'delete',
         })
-        html = BeautifulSoup(response.content)
+        html = BeautifulSoup(response.content, 'html.parser')
         elements = html.find_all('div', attrs={
             'id': 'dns_status',
         })
@@ -130,7 +130,7 @@ class _HeNetClient:
 
     def _find_zone_id(self, zone):
         response = self._get()
-        html = BeautifulSoup(response.content)
+        html = BeautifulSoup(response.content, 'html.parser')
         elements = html.find_all('img', attrs={
             'alt': 'delete',
             'onclick' : self.ZONE_ONCLICK_REGEX,
@@ -150,7 +150,7 @@ class _HeNetClient:
             'menu': 'edit_zone',
             'hosted_dns_editzone': '',
         })
-        html = BeautifulSoup(response.content)
+        html = BeautifulSoup(response.content, 'html.parser')
         elements = html.find_all('td', attrs={
             'class': 'dns_delete',
             'onclick': re.compile(f"deleteRecord\\('[0-9]+','{record_name}'"),
