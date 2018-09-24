@@ -97,7 +97,7 @@ class _HeNetClient:
 
     def del_txt_record(self, domain, record_name, record_content):
         zone_id = self._find_zone_id_for_domain(domain)
-        record_id = self._find_record_id(zone_id, record_name)
+        record_id = self._find_record_id(zone_id, record_name, record_content)
         response = self._post({
             'menu': 'edit_zone',
             'hosted_dns_zoneid': zone_id,
@@ -144,21 +144,35 @@ class _HeNetClient:
         _logger.debug(f'Found Zone ID: {zone_id} (zone={zone}).')
         return zone_id
 
-    def _find_record_id(self, zone_id, record_name):
+    def _find_record_id(self, zone_id, record_name, record_content):
         response = self._get({
             'hosted_dns_zoneid': zone_id,
             'menu': 'edit_zone',
             'hosted_dns_editzone': '',
         })
         html = BeautifulSoup(response.content, 'html.parser')
+
+        # Find the elements with matching record_name.
         elements = html.find_all('td', attrs={
             'class': 'dns_delete',
             'onclick': re.compile(f"deleteRecord\\('[0-9]+','{record_name}'"),
         })
         if len(elements) == 0:
             raise PluginError('Unable to find TXT Record ID')
+
+        # Filter out the elements with different record_content.
+        def is_record_content_correct(element, record_content):
+            value_siblings = element.find_previous_siblings('td', attrs={
+                'data': f'"{record_content}"',
+            })
+            return len(value_siblings) == 1
+        elements = [element for element in elements if is_record_content_correct(element, record_content)]
+
+        if len(elements) == 0:
+            raise PluginError('Unable to find TXT Record ID')
         if len(elements) > 1:
             raise PluginError('Multiple elements match the given TXT Record')
+
         record_id = self.RECORD_ONCLICK_REGEX.search(elements[0]['onclick']).group(1)
         _logger.debug(f'Found Record ID: {record_id} (record_name={record_name}).')
         return record_id
