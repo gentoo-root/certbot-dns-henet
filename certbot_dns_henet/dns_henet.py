@@ -75,8 +75,8 @@ class _HeNetClient:
 
         # Log in.
         self._post({
-            'username': username,
-            'password': password,
+            'email': username,
+            'pass': password,
         })
 
     def add_txt_record(self, domain, record_name, record_content):
@@ -157,10 +157,10 @@ class _HeNetClient:
         })
         if len(elements) == 0:
             raise PluginError('Unable to find TXT Record ID')
-        if len(elements) > 0:
+        if len(elements) > 1:
             raise PluginError('Multiple elements match the given TXT Record')
         record_id = self.RECORD_ONCLICK_REGEX.search(elements[0]['onclick']).group(1)
-        _logger.debug(f'Found Record ID: {record_id} (zone={zone}, record_name={record_name}).')
+        _logger.debug(f'Found Record ID: {record_id} (record_name={record_name}).')
         return record_id
 
     def _find_zone_id_for_domain(self, domain):
