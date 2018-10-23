@@ -40,7 +40,9 @@ Yes. Unfortunately, there is no better way yet, as dns.he.net doesn't have the n
 
 ### How do I install this plugin?
 
-If you are on Archlinux, use the PKGBUILD shipped in this repository. Check out [this Arch Wiki page](https://wiki.archlinux.org/index.php/makepkg#Usage) for the details about installing from PKGBUILD.
+If you are on Archlinux, install it from [AUR](https://aur.archlinux.org/packages/certbot-dns-henet-git/). Check out [Arch Wiki](https://wiki.archlinux.org/index.php/Arch_User_Repository#Installing_packages) for instructions, but it may be simpler and better to use an [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers).
+
+Alternatively, you can use the PKGBUILD shipped in this repository. Check out [this Arch Wiki page](https://wiki.archlinux.org/index.php/makepkg#Usage) for the details about installing from PKGBUILD.
 
 For other distributions and operating systems, you should be able to install this plugin using setup.py, just as any Python module. Using the package manager is preferred: many package managers offer some simple mechanism for creating packages based on setup.py. However, if you wish to install it manually (or if you need some reference installations commands for creating a package), run the following commands:
 
