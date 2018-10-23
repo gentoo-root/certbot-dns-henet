@@ -15,7 +15,7 @@ Store the dns.he.net credentials (replace USERNAME and PASSWORD by your actual c
     certbot_dns_henet:dns_henet_password=PASSWORD
     EOF
 
-Generate a new wildcard certificate:
+Generate a new wildcard certificate with [OCSP Must-Staple](https://scotthelme.co.uk/ocsp-must-staple/):
 
     certbot certonly \
         --authenticator certbot-dns-henet:dns-henet \
