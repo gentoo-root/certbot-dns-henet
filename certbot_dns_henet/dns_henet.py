@@ -1,10 +1,8 @@
 import logging
 import re
 import requests
-import zope.interface
 
 from bs4 import BeautifulSoup
-from certbot import interfaces
 from certbot.errors import PluginError
 from certbot.plugins import dns_common
 
@@ -12,8 +10,6 @@ from certbot.plugins import dns_common
 _logger = logging.getLogger(__name__)
 
 
-@zope.interface.implementer(interfaces.IAuthenticator)
-@zope.interface.provider(interfaces.IPluginFactory)
 class Authenticator(dns_common.DNSAuthenticator):
     """
     DNS Authenticator for he.net DNS
