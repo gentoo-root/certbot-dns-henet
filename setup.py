@@ -35,7 +35,6 @@ setup(
         'certbot>=0.21.1',
         'requests',
         'setuptools',
-        'zope.interface',
     ],
     entry_points={
         'certbot.plugins': [

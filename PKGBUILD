@@ -2,14 +2,14 @@
 
 _pkgname=certbot-dns-henet
 pkgname=$_pkgname-git
-pkgver=r16.931e2c7
+pkgver=r0
 pkgrel=1
 pkgdesc="he.net DNS Authenticator plugin for Certbot"
 arch=('any')
 license=('MIT')
 url="https://bitbucket.org/qt-max/$_pkgname"
 depends=('certbot' 'python-acme' 'python-beautifulsoup4' 'python-requests'
-         'python-setuptools' 'python-zope-interface')
+         'python-setuptools')
 makedepends=('git')
 provides=("$_pkgname")
 conflicts=("$_pkgname")
