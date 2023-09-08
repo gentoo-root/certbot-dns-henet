@@ -11,15 +11,15 @@ Store the dns.he.net credentials (replace USERNAME and PASSWORD by your actual c
     install -m 700 -d /etc/letsencrypt/dns-credentials
     install -m 600 -T /dev/null /etc/letsencrypt/dns-credentials/henet
     cat > /etc/letsencrypt/dns-credentials/henet << "EOF"
-    certbot_dns_henet:dns_henet_username=USERNAME
-    certbot_dns_henet:dns_henet_password=PASSWORD
+    dns_henet_username=USERNAME
+    dns_henet_password=PASSWORD
     EOF
 
 Generate a new wildcard certificate with [OCSP Must-Staple](https://scotthelme.co.uk/ocsp-must-staple/):
 
     certbot certonly \
-        --authenticator certbot-dns-henet:dns-henet \
-        --certbot-dns-henet:dns-henet-credentials /etc/letsencrypt/dns-credentials/henet \
+        --authenticator dns-henet \
+        --dns-henet-credentials /etc/letsencrypt/dns-credentials/henet \
         --domain '*.example.com' --domain 'example.com' \
         --must-staple
 
